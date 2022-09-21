@@ -2,6 +2,7 @@ package goblog
 
 import (
 	"fmt"
+	"time"
 
 	"goblog/config"
 	"goblog/route"
@@ -27,6 +28,11 @@ func (bootstrap *Bootstrap) LoadRoutes() {
 	route.Register(bootstrap.Application)
 }
 
+func TimestampToDate(in int64, layout string) string {
+	t := time.Unix(in, 0)
+	return t.Format(layout)
+}
+
 func (bootstrap *Bootstrap) Serve() {
 	bootstrap.Application.Logger().SetLevel(bootstrap.LoggerLevel)
 	bootstrap.Application.Get("/", func(ctx iris.Context) {
@@ -41,6 +47,9 @@ func (bootstrap *Bootstrap) Serve() {
 		////测试环境下动态加载模板
 		djangoEngine.Reload(true)
 	}
+	// 为引擎模板增加自定义函数
+	djangoEngine.AddFunc("timestampToDate", TimestampToDate)
+
 	bootstrap.Application.RegisterView(djangoEngine)
 	bootstrap.Application.Run(
 		iris.Addr(fmt.Sprintf("127.0.0.1:%d", bootstrap.Port)),

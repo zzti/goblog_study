@@ -6,7 +6,16 @@
 </head>
 
 <body>
-    Hello World in template!
+    Hello World in template!</br>
+    {{timestampToDate(nowstamptime,"2006-01-02 15:04:05")}}</br>
+    去掉秒
+    {{timestampToDate(nowstamptime, "2006-01-02 15:04")}}<br>
+    去掉时分秒
+    {{timestampToDate(nowstamptime, "2006-01-02")}}<br>
+    加上中文年月日时分秒
+    {{timestampToDate(nowstamptime, "2006年01月02日15时04分05秒")}}<br>
+    格林威治时间
+    {{timestampToDate(nowstamptime, "Mon Jan 2 15:04:05 -0700 MST 2006")}}<br>
 </body>
 
 </html>
